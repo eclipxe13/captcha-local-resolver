@@ -138,7 +138,7 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [coverage]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/eclipxe/captcha-local-resolver
 
-[badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver--blue?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-build]: https://img.shields.io/travis/com/eclipxe13/captcha-local-resolver/master?style=flat-square
