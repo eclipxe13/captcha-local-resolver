@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Captcha Local Resolver</title>
+    <style>
+        #captcha-list {
+        }
+        #captcha-list form {
+            width: 30em;
+            margin-bottom: 4em;
+        }
+        #captcha-list form > img {
+            width: 100%;
+            margin-bottom: 0.5em;
+            border: 1px solid grey;
+        }
+        #captcha-list form > input {
+            width: 75%;
+        }
+        #captcha-list form > button {
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+<h1>Local Captcha Resolver</h1>
+<div id="captcha-list"></div>
+
+<script type="text/javascript">
+    function captcha_load() {
+        fetch('captchas', {method: 'GET'})
+            .then(function (response) {
+                if (! response.ok) { // The API call was not successful!
+                    return Promise.reject(response);
+                }
+                return response.json();
+            })
+            .then(function (list) {
+                list.forEach(captcha => captcha_append(captcha));
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+    }
+
+    function captcha_subscribe() {
+        const source = new EventSource('events');
+        source.addEventListener('message', function(event) {
+            if (event.data !== '') {
+                console.log(event.data);
+                const data = JSON.parse(event.data);
+                const eventName = data['eventName'];
+                if (eventName === 'append') captcha_append(data);
+                if (eventName === 'remove') captcha_remove(data['code']);
+            }
+        });
+        source.addEventListener('error', function(event) {
+            if (event['data'] !== '') {
+                source.close();
+            }
+        });
+    }
+
+    function captcha_send_answer(form) {
+        fetch('set-code-answer', {method: 'POST', body: new FormData(form)});
+    }
+
+    function captcha_remove(code) {
+        const form = document.getElementById('captcha-' + code);
+        if (! form) {
+            return;
+        }
+        form.parentElement.removeChild(form);
+    }
+
+    function captcha_append(data) {
+        const form = $createElement('form', {id: 'captcha-' + data.code});
+        form.append(
+            $createElement('input', {type: 'hidden', name: 'code', value: data.code}),
+            $createElement('img', {src: 'data:image/png;base64,' + data.image}),
+            $createElement('input', {type: 'text', 'name': 'answer'}),
+            $createElement('button', {type: 'submit'}, 'ok'),
+        );
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            captcha_send_answer(form);
+            return false;
+        });
+        document.getElementById('captcha-list').appendChild(form);
+    }
+
+    function $createElement(name, attributes, value) {
+        const element = document.createElement(name);
+        for (const attribute in attributes) {
+            if (attributes.hasOwnProperty(attribute)) {
+                element.setAttribute(attribute, attributes[attribute]);
+            }
+        }
+        if (value) {
+            element.innerText = value;
+        }
+        return element;
+    }
+</script>
+<script type="text/javascript" defer="defer">
+    captcha_load();
+    captcha_subscribe();
+</script>
+</body>
+</html>

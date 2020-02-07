@@ -1,0 +1,66 @@
+{
+    "name": "eclipxe/captcha-local-resolver",
+    "description": "Captcha local resolver (by humans)",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos C Soto",
+            "email": "eclipxe13@gmail.com"
+        }
+    ],
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {
+            "CaptchaLocalResolver\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CaptchaLocalResolver\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.3",
+        "ext-json": "*",
+        "ext-fileinfo": "*",
+        "react/react": "^1.0",
+        "react/http": "^0.8.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "scripts": {
+        "dev:install": [
+            "bash develop/install-development-tools"
+        ],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:tests"
+        ],
+        "dev:check-style": [
+            "tools/php-cs-fixer fix --dry-run --verbose",
+            "tools/phpcs --colors -sp src/ tests/"
+        ],
+        "dev:fix-style": [
+            "tools/php-cs-fixer fix --verbose",
+            "tools/phpcbf --colors -sp src/ tests/"
+        ],
+        "dev:tests": [
+            "@dev:check-style",
+            "vendor/bin/phpunit --verbose",
+            "tools/phpstan analyze --no-progress --verbose"
+        ]
+    },
+    "scripts-descriptions": {
+        "dev:install": "DEV: install development tools into tools/",
+        "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
+        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
+        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
+        "dev:tests": "DEV: run executes phpunit tests"
+    }
+}
