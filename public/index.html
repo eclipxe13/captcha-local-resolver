@@ -74,7 +74,11 @@
     }
 
     function captcha_append(data) {
-        const form = $createElement('form', {id: 'captcha-' + data.code});
+        const formId = 'captcha-' + data.code;
+        if (document.getElementById(formId)) {
+            return;
+        }
+        const form = $createElement('form', {id: formId});
         form.append(
             $createElement('input', {type: 'hidden', name: 'code', value: data.code}),
             $createElement('img', {src: 'data:image/png;base64,' + data.image}),
