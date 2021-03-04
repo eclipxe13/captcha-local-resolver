@@ -12,8 +12,7 @@ use React\Http\Response;
 
 class SetCodeAnswer implements ActionInterface
 {
-    /** @var Captchas */
-    private $captchas;
+    private Captchas $captchas;
 
     public function __construct(Captchas $captchas)
     {

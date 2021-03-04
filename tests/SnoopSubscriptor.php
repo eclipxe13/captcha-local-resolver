@@ -10,7 +10,7 @@ use CaptchaLocalResolver\SubscriptorInterface;
 class SnoopSubscriptor implements SubscriptorInterface
 {
     /** @var array<string, array<Captcha>> */
-    private $events;
+    private array $events;
 
     public function onAppend(Captcha $captcha): void
     {
@@ -45,9 +45,7 @@ class SnoopSubscriptor implements SubscriptorInterface
     {
         return array_reduce(
             $this->events,
-            function (int $carry, array $events): int {
-                return $carry + count($events);
-            },
+            fn (int $carry, array $events): int => $carry + count($events),
             0
         );
     }

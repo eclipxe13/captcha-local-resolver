@@ -32,7 +32,8 @@
         "react/http": "^0.8.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.5",
+        "rector/rector-prefixed": "^0.9.31"
     },
     "scripts": {
         "dev:install": [

@@ -11,8 +11,7 @@ use JsonSerializable;
 
 class ObtainDecoded implements ActionInterface
 {
-    /** @var Captchas */
-    private $captchas;
+    private Captchas $captchas;
 
     public function __construct(Captchas $captchas)
     {

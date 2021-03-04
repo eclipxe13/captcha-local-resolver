@@ -12,11 +12,9 @@ use React\Http\Response;
 
 class LocalResource implements ActionInterface
 {
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
-    /** @var string */
-    private $path;
+    private string $path;
 
     public function __construct(string $webroot, string $path)
     {
@@ -63,9 +61,7 @@ class LocalResource implements ActionInterface
     public static function simplifyPath(string $path): array
     {
         $parts = explode('/', parse_url($path, PHP_URL_PATH) ?: '');
-        $parts = array_values(array_filter($parts, function (string $name): bool {
-            return ('.' !== $name && '' !== $name);
-        }));
+        $parts = array_values(array_filter($parts, fn (string $name): bool => '.' !== $name && '' !== $name));
 
         // is .. and previous is not .., for paths like "../../some/path"
         $count = count($parts);

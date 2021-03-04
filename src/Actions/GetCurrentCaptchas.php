@@ -10,8 +10,7 @@ use JsonSerializable;
 
 class GetCurrentCaptchas implements ActionInterface
 {
-    /** @var Captchas */
-    private $repository;
+    private JsonSerializable $repository;
 
     public function __construct(Captchas $repository)
     {

@@ -6,14 +6,11 @@ namespace CaptchaLocalResolver;
 
 class ActionResolver
 {
-    /** @var string */
-    private $method;
+    private string $method;
 
-    /** @var string */
-    private $path;
+    private string $path;
 
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
     public function __construct(string $method, string $path, string $webroot)
     {

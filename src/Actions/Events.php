@@ -14,11 +14,9 @@ use React\Stream\ThroughStream;
 
 class Events implements ActionInterface, SubscriptorInterface
 {
-    /** @var Captchas */
-    private $captchas;
+    private Captchas $captchas;
 
-    /** @var ThroughStream */
-    private $stream;
+    private ThroughStream $stream;
 
     public function __construct(Captchas $captchas)
     {

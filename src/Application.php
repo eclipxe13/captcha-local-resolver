@@ -13,11 +13,9 @@ use Throwable;
 
 class Application
 {
-    /** @var Captchas */
-    private $repository;
+    private Captchas $repository;
 
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
     public function __construct(?Captchas $repository = null, string $webroot = '')
     {
