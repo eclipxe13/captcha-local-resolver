@@ -11,7 +11,7 @@
 This is a project to create a human captcha resolver that emulates how online resolvers work.
 
 It is based on [ReactPHP](https://reactphp.org/) and exists to emulate an online captcha resolver service
-where you human are the one that provide the captcha solution using your amazing brains.
+where you (human) are the one that provide the captcha solution using your amazing brains.
 
 ## Install the server
 
@@ -34,25 +34,27 @@ Parameters are `host` (default 127.0.0.1) and `port` (random int between 9000 an
 
 ## How it works (eagle view)
 
-You are scraping and the target website does not have an API, even worst, they are using a captcha and you need
+You have to scrap, and the target website does not have an API, even worst, they are using a captcha, and you need
 to solve it to make your program work (*hello Mexico Goverment, how's your day?*).
 
 You need to resolve the captcha, and there are a lot of services that solve this problem, like *Decaptcher*,
-*AntiCaptcha*, etc. But that services that have a cost (very cheap). But for any reason, you don't want to use that.
-Maybe you don't want to provide your credit card information, maybe you are running functional tests and cannot
-access the real captcha resolver account.
+*AntiCaptcha*, etc...
+that services that have a cost (very cheap)...
+for any reason, you don't want to use that.
+Maybe you don't want to provide your credit card information, maybe you are running functional tests
+and cannot access the real captcha resolver account.
 
 Then, you can use this project.
 
 - Your scraper will find that require to solve a captcha and get the image.
 - Send the image to your instance of captcha-local-resolver
-- The captcha will appears on your browser, you solve it using your brain's amazing OCR
+- The captcha will appear on your browser, you solve it using your brain's amazing OCR
 - Check that the captcha has been resolved
 - Set the answer into the correct field and send the form.
 
 ## How it technically works
 
-You run captcha-local-resolver and it will open a web server with specific actions (routes):
+You run `captcha-local-resolver`, and it will open a web server with specific actions (routes):
 
 ### Route `send-image`
 
@@ -73,7 +75,7 @@ If it already has an answer then the captcha is droped from the server.
 
 If there is no answer yet then the answer will be an empty string.
 
-If the code does not exists you will receive a `404` HTTP Status Code.
+If the code does not exist you will receive a `404` HTTP Status Code.
 
 ### Route `/`
 
@@ -100,9 +102,9 @@ using [`EventSource`](https://developer.mozilla.org/en-US/docs/Web/API/EventSour
 
 There are only 3 events:
 
-- `append`: when a new captcha has been inserted to be solved.
-- `answer`: when a captcha solution has been posted.
-- `remove`: when a captcha solution has been removed.
+- `append` when a new captcha has been inserted to be solved.
+- `answer` when a captcha solution has been posted.
+- `remove` when a captcha solution has been removed.
 
 This is what you can implement inside your own application to resolve captchas.
 
