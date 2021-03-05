@@ -35,6 +35,9 @@ class ActionResolver
         if ($this->checkPathMethod('POST', '/set-code-answer')) {
             return new Actions\SetCodeAnswer($app->getRepository());
         }
+        if ($this->checkPathMethod('POST', '/discard-code')) {
+            return new Actions\DiscardCode($app->getRepository());
+        }
         if ($this->checkPathMethod('POST', '/send-image')) {
             return new Actions\SendImage($app->getRepository());
         }

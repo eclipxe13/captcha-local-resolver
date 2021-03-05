@@ -75,4 +75,45 @@ class SimulateFlowTest extends TestCase
         $captchaFromEvent = $subscriptor->getEvents('remove')[0];
         $this->assertEquals(new Captcha($code, $encodedImage, $answer), $captchaFromEvent);
     }
+
+    public function testDiscardFlow(): void
+    {
+        $subscriptor = new SnoopSubscriptor();
+        $application = new Application();
+        $captchas = $application->getRepository();
+        $captchas->subscribe($subscriptor);
+
+        // send image
+        $encodedImage = base64_encode('image-1');
+        $sendImageResponse = $application->__invoke(
+            $this->createRequest('POST', 'http://localhost/send-image', ['image' => $encodedImage])
+        );
+        // send image assertions
+        $this->assertSame(200, $sendImageResponse->getStatusCode());
+        $sendImageData = json_decode($sendImageResponse->getBody()->getContents(), true);
+        $code = $sendImageData['code'] ?: '';
+        $this->assertNotEmpty($code, 'The captcha code was received on the response');
+        $this->assertCount(1, $subscriptor->getEvents('append'));
+        // send image event assertions
+        $captchaFromEvent = $subscriptor->getEvents('append')[0];
+        $this->assertEquals(new Captcha($code, $encodedImage), $captchaFromEvent);
+
+        // discard-code
+        $setCodeAnswerResponse = $application->__invoke(
+            $this->createRequest('POST', 'http://localhost/discard-code', ['code' => $code])
+        );
+        $this->assertSame(200, $setCodeAnswerResponse->getStatusCode());
+        $this->assertEmpty($setCodeAnswerResponse->getBody()->getContents());
+        $captchaFromEvent = $subscriptor->getEvents('remove')[0];
+        $this->assertEquals(new Captcha($code, $encodedImage, ''), $captchaFromEvent);
+
+        // captchas
+        $captchasRequest = $application->__invoke(
+            $this->createRequest('GET', 'http://localhost/captchas')
+        );
+        $this->assertSame(200, $captchasRequest->getStatusCode());
+        $captchasData = json_decode($captchasRequest->getBody()->getContents(), true);
+        $this->assertTrue(is_array($captchasData));
+        $this->assertCount(0, $captchasData);
+    }
 }
