@@ -39,6 +39,9 @@ curl -s -d code=460ea98992564122f444fd6290108eda http://127.0.0.1:9794/obtain-de
   "code": "460ea98992564122f444fd6290108eda"
 }
 
+# set answer for image qwerty
+curl -vs -d code=460ea98992564122f444fd6290108eda -d answer=qwerty http://127.0.0.1:9794/set-code-answer | jq .
+
 # obtain decoded image qwerty (with answer)
 curl -s -d code=460ea98992564122f444fd6290108eda http://127.0.0.1:9794/obtain-decoded | jq .
 {
