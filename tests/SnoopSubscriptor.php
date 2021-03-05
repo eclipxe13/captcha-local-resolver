@@ -34,7 +34,7 @@ class SnoopSubscriptor implements SubscriptorInterface
 
     /**
      * @param string $eventName
-     * @return array<Captcha>|Captcha[]
+     * @return array<Captcha>
      */
     public function getEvents(string $eventName): array
     {
