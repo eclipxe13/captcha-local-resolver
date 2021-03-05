@@ -1,4 +1,3 @@
 parameters:
     level: max
-    paths: ['src/', 'tests/']
-
+    paths: ['bin/', 'src/', 'tests/']
