@@ -8,7 +8,7 @@ use CaptchaLocalResolver\ActionInterface;
 use CaptchaLocalResolver\Exceptions\ExecuteException;
 use finfo;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 class LocalResource implements ActionInterface
 {
@@ -29,7 +29,7 @@ class LocalResource implements ActionInterface
         if (file_exists($absolutePath) && is_file($absolutePath) && is_readable($absolutePath)) {
             $contentType = $this->readFileContentType($absolutePath); // RFC 2045
             $headers = array_filter(['Content-Type' => $contentType]); // if not known content type do not send any value
-            return new Response(200, $headers, fopen($absolutePath, 'r'));
+            return new Response(200, $headers, file_get_contents($absolutePath) ?: '');
         }
 
         throw ExecuteException::pathNotFound($this->path);

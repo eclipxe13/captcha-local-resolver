@@ -8,7 +8,7 @@ use CaptchaLocalResolver\ActionInterface;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\Exceptions\ExecuteException;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 class DiscardCode implements ActionInterface
 {

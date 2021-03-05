@@ -9,7 +9,7 @@ use CaptchaLocalResolver\Captcha;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\SubscriptorInterface;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 use React\Stream\ThroughStream;
 
 class Events implements ActionInterface, SubscriptorInterface
