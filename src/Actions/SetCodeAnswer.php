@@ -8,12 +8,11 @@ use CaptchaLocalResolver\ActionInterface;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\Exceptions\ExecuteException;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 class SetCodeAnswer implements ActionInterface
 {
-    /** @var Captchas */
-    private $captchas;
+    private Captchas $captchas;
 
     public function __construct(Captchas $captchas)
     {

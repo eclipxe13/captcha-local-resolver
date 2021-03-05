@@ -19,8 +19,7 @@ class Captchas implements JsonSerializable, IteratorAggregate, Countable
     /** @var ArrayObject<string, Captcha>|Captcha[] */
     private $captchas;
 
-    /** @var Subscriptors */
-    private $subscriptors;
+    private Subscriptors $subscriptors;
 
     public function __construct()
     {
@@ -84,9 +83,7 @@ class Captchas implements JsonSerializable, IteratorAggregate, Countable
         // convert captcha to array, remove codes as keys
         return array_values(
             array_map(
-                function (Captcha $captcha): array {
-                    return $captcha->toArray();
-                },
+                fn (Captcha $captcha): array => $captcha->toArray(),
                 $this->captchas->getArrayCopy()
             )
         );

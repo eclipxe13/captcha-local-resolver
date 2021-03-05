@@ -9,16 +9,14 @@ use CaptchaLocalResolver\Captcha;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\SubscriptorInterface;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 use React\Stream\ThroughStream;
 
 class Events implements ActionInterface, SubscriptorInterface
 {
-    /** @var Captchas */
-    private $captchas;
+    private Captchas $captchas;
 
-    /** @var ThroughStream */
-    private $stream;
+    private ThroughStream $stream;
 
     public function __construct(Captchas $captchas)
     {

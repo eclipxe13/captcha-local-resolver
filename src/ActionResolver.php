@@ -6,14 +6,11 @@ namespace CaptchaLocalResolver;
 
 class ActionResolver
 {
-    /** @var string */
-    private $method;
+    private string $method;
 
-    /** @var string */
-    private $path;
+    private string $path;
 
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
     public function __construct(string $method, string $path, string $webroot)
     {
@@ -37,6 +34,9 @@ class ActionResolver
         }
         if ($this->checkPathMethod('POST', '/set-code-answer')) {
             return new Actions\SetCodeAnswer($app->getRepository());
+        }
+        if ($this->checkPathMethod('POST', '/discard-code')) {
+            return new Actions\DiscardCode($app->getRepository());
         }
         if ($this->checkPathMethod('POST', '/send-image')) {
             return new Actions\SendImage($app->getRepository());

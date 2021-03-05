@@ -8,16 +8,14 @@ use JsonSerializable;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 use Throwable;
 
 class Application
 {
-    /** @var Captchas */
-    private $repository;
+    private Captchas $repository;
 
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
     public function __construct(?Captchas $repository = null, string $webroot = '')
     {
@@ -84,7 +82,7 @@ class Application
             $result = new Response(
                 200,
                 ['Content-Type' => 'text/json; charset=utf-8'],
-                json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_LINE_TERMINATORS)
+                json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_LINE_TERMINATORS) ?: ''
             );
         }
         if ($result instanceof ResponseInterface) {

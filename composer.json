@@ -25,14 +25,14 @@
         }
     },
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-json": "*",
         "ext-fileinfo": "*",
-        "react/react": "^1.0",
-        "react/http": "^0.8.6"
+        "react/react": "^1.1",
+        "react/http": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.5"
     },
     "scripts": {
         "dev:install": [
@@ -43,17 +43,17 @@
             "@dev:tests"
         ],
         "dev:check-style": [
-            "tools/php-cs-fixer fix --dry-run --verbose",
-            "tools/phpcs --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp src/ tests/"
         ],
         "dev:fix-style": [
-            "tools/php-cs-fixer fix --verbose",
-            "tools/phpcbf --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp src/ tests/"
         ],
         "dev:tests": [
             "@dev:check-style",
-            "vendor/bin/phpunit --verbose",
-            "tools/phpstan analyze --no-progress --verbose"
+            "@php vendor/bin/phpunit --verbose",
+            "@php tools/phpstan analyze --no-progress --verbose"
         ]
     },
     "scripts-descriptions": {

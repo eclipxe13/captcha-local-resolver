@@ -8,14 +8,11 @@ use JsonSerializable;
 
 class Captcha implements JsonSerializable
 {
-    /** @var string */
-    private $code;
+    private string $code;
 
-    /** @var string */
-    private $image;
+    private string $image;
 
-    /** @var string */
-    private $answer;
+    private string $answer;
 
     public function __construct(string $code, string $image, string $answer = '')
     {

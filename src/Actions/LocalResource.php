@@ -8,15 +8,13 @@ use CaptchaLocalResolver\ActionInterface;
 use CaptchaLocalResolver\Exceptions\ExecuteException;
 use finfo;
 use Psr\Http\Message\ResponseInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 class LocalResource implements ActionInterface
 {
-    /** @var string */
-    private $webroot;
+    private string $webroot;
 
-    /** @var string */
-    private $path;
+    private string $path;
 
     public function __construct(string $webroot, string $path)
     {
@@ -31,7 +29,7 @@ class LocalResource implements ActionInterface
         if (file_exists($absolutePath) && is_file($absolutePath) && is_readable($absolutePath)) {
             $contentType = $this->readFileContentType($absolutePath); // RFC 2045
             $headers = array_filter(['Content-Type' => $contentType]); // if not known content type do not send any value
-            return new Response(200, $headers, fopen($absolutePath, 'r'));
+            return new Response(200, $headers, file_get_contents($absolutePath) ?: '');
         }
 
         throw ExecuteException::pathNotFound($this->path);
@@ -63,9 +61,7 @@ class LocalResource implements ActionInterface
     public static function simplifyPath(string $path): array
     {
         $parts = explode('/', parse_url($path, PHP_URL_PATH) ?: '');
-        $parts = array_values(array_filter($parts, function (string $name): bool {
-            return ('.' !== $name && '' !== $name);
-        }));
+        $parts = array_values(array_filter($parts, fn (string $name): bool => '.' !== $name && '' !== $name));
 
         // is .. and previous is not .., for paths like "../../some/path"
         $count = count($parts);

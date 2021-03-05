@@ -7,9 +7,10 @@ namespace CaptchaLocalResolver\Actions;
 use CaptchaLocalResolver\ActionInterface;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\Exceptions\ExecuteException;
-use JsonSerializable;
+use Psr\Http\Message\ResponseInterface;
+use React\Http\Message\Response;
 
-class ObtainDecoded implements ActionInterface
+class DiscardCode implements ActionInterface
 {
     private Captchas $captchas;
 
@@ -18,20 +19,18 @@ class ObtainDecoded implements ActionInterface
         $this->captchas = $captchas;
     }
 
-    public function execute(array $arguments): JsonSerializable
+    public function execute(array $arguments): ResponseInterface
     {
-        // validate code
+        // validate image
         $code = $arguments['code'] ?? '';
         if ('' === $code) {
             throw ExecuteException::invalidArgument('code');
         }
-        $captcha = $this->captchas->findByCode($code);
-        if (null === $captcha) {
-            throw ExecuteException::codeNotFound($code);
-        }
-        if ($captcha->hasAnswer()) {
+
+        if (null !== $this->captchas->findByCode($code)) {
             $this->captchas->remove($code);
         }
-        return $captcha;
+
+        return new Response(200, ['Content-Type' => 'text/plain; charset=utf-8'], '');
     }
 }

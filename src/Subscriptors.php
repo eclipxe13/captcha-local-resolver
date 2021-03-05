@@ -13,7 +13,7 @@ use Throwable;
 class Subscriptors implements SubscriptorInterface, Countable
 {
     /** @var ArrayObject<int, SubscriptorInterface>|SubscriptorInterface[] */
-    private $subscriptors;
+    private ArrayObject $subscriptors;
 
     public function __construct()
     {
