@@ -23,10 +23,10 @@ class SendImage implements ActionInterface
         // validate image
         $image = $arguments['image'] ?? '';
         if ('' === $image) {
-            throw ExecuteException::invalidArgument('image');
+            throw ExecuteException::invalidArgument('image', 'empty content');
         }
         if (base64_encode(base64_decode($image, true) ?: '') !== $image) {
-            throw ExecuteException::invalidArgument('image');
+            throw ExecuteException::invalidArgument('image', 'content is not base64');
         }
 
         return $this->captchas->push($image);

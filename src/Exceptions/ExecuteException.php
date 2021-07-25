@@ -8,9 +8,14 @@ use Exception;
 
 class ExecuteException extends Exception
 {
-    public static function invalidArgument(string $argument): self
+    public static function invalidArgument(string $argument, string $explanation = ''): self
     {
-        return new self(sprintf('Invalid argument %s received', $argument), 400);
+        $message = sprintf(
+            'Invalid argument %s received%s',
+            $argument,
+            ($explanation) ? ": $explanation" : ''
+        );
+        return new self($message, 400);
     }
 
     public static function codeNotFound(string $code): self
