@@ -104,6 +104,10 @@ class Application
         return new ActionResolver($request->getMethod(), $request->getUri()->getPath(), $this->webroot);
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return string[]
+     */
     protected function extractArgumentsFromRequest(ServerRequestInterface $request): array
     {
         if ('application/json' === implode('', $request->getHeader('Content-Type'))) {

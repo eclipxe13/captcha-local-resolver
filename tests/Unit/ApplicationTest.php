@@ -130,6 +130,7 @@ class ApplicationTest extends TestCase
     public function testApplicationCanParse(): void
     {
         $app = new class() extends Application {
+            /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {
                 return $this->extractArgumentsFromRequest($request);
@@ -144,13 +145,14 @@ class ApplicationTest extends TestCase
     public function testApplicationCanParseJson(): void
     {
         $app = new class() extends Application {
+            /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {
                 return parent::extractArgumentsFromRequest($request);
             }
         };
         $data = ['foo' => '1', 'bar' => '2'];
-        $payload = json_encode($data);
+        $payload = json_encode($data) ?: '';
         $request = new ServerRequest('GET', 'http://localhost/', ['Content-Type' => 'application/json'], $payload);
 
         $this->assertEquals($data, $app->exposeExtractArgumentsFromRequest($request));
@@ -159,6 +161,7 @@ class ApplicationTest extends TestCase
     public function testApplicationCanParseInvalidJson(): void
     {
         $app = new class() extends Application {
+            /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {
                 return parent::extractArgumentsFromRequest($request);
