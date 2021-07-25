@@ -28,8 +28,10 @@
         "php": ">=7.4",
         "ext-json": "*",
         "ext-fileinfo": "*",
-        "react/react": "^1.1",
-        "react/http": "^1.2"
+        "psr/http-message": "^1.0",
+        "react/react": "^1.2",
+        "react/http": "^1.4",
+        "react/stream": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
