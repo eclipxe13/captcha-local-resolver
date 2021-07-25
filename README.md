@@ -102,7 +102,7 @@ using [`EventSource`](https://developer.mozilla.org/en-US/docs/Web/API/EventSour
 
 There are only 3 events:
 
-- `append` when a new captcha has been inserted to be solved.
+- `append` when a new captcha has been inserted.
 - `answer` when a captcha solution has been posted.
 - `remove` when a captcha solution has been removed.
 
@@ -143,7 +143,7 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/captcha-local-resolver?style=flat-square
-[badge-build]: https://img.shields.io/travis/com/eclipxe13/captcha-local-resolver/master?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/captcha-local-resolver/build/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/captcha-local-resolver/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/captcha-local-resolver/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/eclipxe/captcha-local-resolver?style=flat-square

@@ -44,7 +44,7 @@ section below, you may create bugfix branches and send us pull requests.
 If you have an idea for a new feature, it's a good idea to check out our
 [issues](https://github.com/eclipxe13/captcha-local-resolver/issues) or active
 [pull requests](https://github.com/eclipxe13/captcha-local-resolver/pulls)
-first to see if the feature is already being worked on.
+first to see if we are being working on the feature.
 If not, feel free to submit an issue first, asking whether the feature is beneficial to the project.
 This will save you from doing a lot of development work only to have your feature rejected.
 We don't enjoy rejecting your hard work, but some features just don't fit with the goals of the project.
@@ -54,8 +54,9 @@ When you do begin working on your feature, here are some guidelines to consider:
 * Your pull request description should clearly detail the changes you have made.
 * Follow our code style using `squizlabs/php_codesniffer` and `friendsofphp/php-cs-fixer`.
 * Please **write tests** for any new features you add.
-* Please **ensure that tests pass** before submitting your pull request. We have Travis CI automatically running tests for pull requests. However, running the tests locally will help save time.
-* **Use topic/feature branches.** Please do not ask us to pull from your master branch.
+* Please **ensure that tests pass** before submitting your pull request. Running the tests locally will help save time.
+* We have GitHub Actions automatically running tests for pull requests.
+* **Use topic/feature branches.** Please do not ask us to pull from your main branch.
 * **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
 * **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
@@ -84,7 +85,7 @@ composer dev:fix-style
 
 # or using tools individually
 tools/php-cs-fixer fix -v
-tools/phpcbf -sp src/ tests/
+tools/phpcbf -sp
 ```
 
 ## Running Tests
@@ -98,9 +99,18 @@ Before you can run these, be sure to `composer install` or `composer update`.
 composer dev:build
 
 # or using tools individually
-tools/phpcs -sp src/ tests/
+tools/phpcs -sp
 tools/php-cs-fixer fix -v --dry-run
-vendor/bin/phpunit --coverage-text
+vendor/bin/phpunit --testdox
 tools/phpstan analyze
-phpdbg -qrr tools/infection --show-mutations
+```
+
+## Running GitHub Actions locally
+
+You can use [`act`](https://github.com/nektos/act) to run your GitHub Actions locally.
+As documented in [`actions/setup-php-action`](https://github.com/marketplace/actions/setup-php-action#local-testing-setup)
+you will need to execute the command as:
+
+```shell
+act -P ubuntu-latest=shivammathur/node:latest
 ```
