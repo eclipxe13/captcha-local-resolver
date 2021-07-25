@@ -26,11 +26,12 @@ composer install --no-dev --optimize
 ## Run the server
 
 ```shell
-php bin/service.php 127.0.0.1 9595
+# php bin/service.php [[<ip-address>]:[<port-number>]]
+php bin/service.php :9595
 Server running at http://127.0.0.1:9595
 ```
 
-Parameters are `host` (default 127.0.0.1) and `port` (random int between 9000 and 9999) to listen.
+Parameters are `ip-address` (default `127.0.0.1`) and `port` (default `80`) to listen.
 
 ## How it works (eagle view)
 
