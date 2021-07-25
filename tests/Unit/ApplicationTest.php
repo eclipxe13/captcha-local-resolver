@@ -8,6 +8,7 @@ use CaptchaLocalResolver\Application;
 use CaptchaLocalResolver\Captchas;
 use CaptchaLocalResolver\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use RingCentral\Psr7\ServerRequest;
 
 /**
  * @covers \CaptchaLocalResolver\Application
@@ -75,7 +76,7 @@ class ApplicationTest extends TestCase
         $this->assertSame('text/plain; charset=utf-8', $response->getHeaderLine('content-type'));
     }
 
-    public function testServerObtainParsedBodyNull(): void
+    public function testServeObtainParsedBodyNull(): void
     {
         $app = new Application();
         $request = $this->createRequest('GET', 'http://localhost/', null);
@@ -83,7 +84,7 @@ class ApplicationTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    public function testServerObtainParsedBodyObject(): void
+    public function testServeObtainParsedBodyObject(): void
     {
         $app = new Application();
         $request = $this->createRequest('GET', 'http://localhost/', (object) []);
@@ -108,7 +109,7 @@ class ApplicationTest extends TestCase
 
         $response = $app->serve($request);
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/json; charset=utf-8', $response->getHeaderLine('content-type'));
+        $this->assertSame('application/json; charset=utf-8', $response->getHeaderLine('content-type'));
     }
 
     public function testServeRespondsWithTextPlain(): void
@@ -124,5 +125,48 @@ class ApplicationTest extends TestCase
         $response = $app->serve($request);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('text/plain; charset=utf-8', $response->getHeaderLine('content-type'));
+    }
+
+    public function testApplicationCanParse(): void
+    {
+        $app = new class() extends Application {
+            public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
+            {
+                return $this->extractArgumentsFromRequest($request);
+            }
+        };
+        $data = ['foo' => '1', 'bar' => '2'];
+        $request = $this->createRequest('GET', 'http://localhost/', $data);
+
+        $this->assertEquals($data, $app->exposeExtractArgumentsFromRequest($request));
+    }
+
+    public function testApplicationCanParseJson(): void
+    {
+        $app = new class() extends Application {
+            public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
+            {
+                return parent::extractArgumentsFromRequest($request);
+            }
+        };
+        $data = ['foo' => '1', 'bar' => '2'];
+        $payload = json_encode($data);
+        $request = new ServerRequest('GET', 'http://localhost/', ['Content-Type' => 'application/json'], $payload);
+
+        $this->assertEquals($data, $app->exposeExtractArgumentsFromRequest($request));
+    }
+
+    public function testApplicationCanParseInvalidJson(): void
+    {
+        $app = new class() extends Application {
+            public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
+            {
+                return parent::extractArgumentsFromRequest($request);
+            }
+        };
+        $payload = '{foo: this is invalid json}';
+        $request = new ServerRequest('GET', 'http://localhost/', ['Content-Type' => 'application/json'], $payload);
+
+        $this->assertSame([], $app->exposeExtractArgumentsFromRequest($request));
     }
 }
