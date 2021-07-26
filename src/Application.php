@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CaptchaLocalResolver;
 
+use JsonException;
 use JsonSerializable;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
@@ -58,15 +59,11 @@ class Application
             return new Response($exception->getCode(), ['Content-Type' => 'text/plain; charset=utf-8'], $exception->getMessage());
         }
 
+        // build arguments
+        $arguments = $this->extractArgumentsFromRequest($request);
+
         // execute action
         try {
-            $arguments = $request->getParsedBody();
-            if (null === $arguments) {
-                $arguments = [];
-            }
-            if (is_object($arguments)) {
-                $arguments = json_decode(json_encode($arguments) ?: '', true);
-            }
             /**
              * Redeclared type (add mixed) if action was poorly implemented
              * Static analysis will claim that this method has unreachable code
@@ -81,7 +78,7 @@ class Application
         if ($result instanceof JsonSerializable) {
             $result = new Response(
                 200,
-                ['Content-Type' => 'text/json; charset=utf-8'],
+                ['Content-Type' => 'application/json; charset=utf-8'],
                 json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_LINE_TERMINATORS) ?: ''
             );
         }
@@ -102,8 +99,32 @@ class Application
         return $this->webroot;
     }
 
-    private function createActionResolver(ServerRequestInterface $request): ActionResolver
+    protected function createActionResolver(ServerRequestInterface $request): ActionResolver
     {
         return new ActionResolver($request->getMethod(), $request->getUri()->getPath(), $this->webroot);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return string[]
+     */
+    protected function extractArgumentsFromRequest(ServerRequestInterface $request): array
+    {
+        if ('application/json' === implode('', $request->getHeader('Content-Type'))) {
+            try {
+                $arguments = json_decode((string)$request->getBody(), true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $exception) {
+                $arguments = null;
+            }
+        } else {
+            $arguments = $request->getParsedBody();
+        }
+        if (null === $arguments) {
+            $arguments = [];
+        }
+        if (is_object($arguments)) {
+            $arguments = json_decode(json_encode($arguments) ?: '', true);
+        }
+        return $arguments;
     }
 }
