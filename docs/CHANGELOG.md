@@ -15,6 +15,17 @@ In summary, [SemVer](https://semver.org/) can be viewed as `[ Breaking ].[ Featu
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.1.0 2021-07-25
+
+Usage changes:
+
+- `bin/service.php` now receives 1 argument as `<ip-addess>:<port-number>`.
+- API now allows `application/json` content types in requests.
+
+Internal changes:
+
+- Update development environment.
+
 ## Version 0.0.2 2021-03-04
 
 - Add new route `/discard-code` and use it in default web application.
