@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Captcha Local Resolver</title>
+        <style>
+            #captcha-list {
+            }
+            #captcha-list form {
+                width: 30em;
+                margin-bottom: 4em;
+            }
+            #captcha-list form > img {
+                width: 100%;
+                margin-bottom: 0.5em;
+                border: 1px solid grey;
+            }
+            #captcha-list form > input {
+                width: 75%;
+            }
+            #captcha-list form > button {
+                width: 10%;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    </head>
+    <body>
+        <h1>Local Captcha Resolver</h1>
+        <div id="captcha-list">
+            <form
+                v-for="captcha in captchaList"
+                v-bind:key="captcha.code"
+                v-on:submit.prevent="captchaSendAnswer(captcha)"
+            >
+                <img v-bind:src="`data:image/png;base64,${captcha.image}`" />
+                <input type="text" name="answer" v-model="captcha.answer" />
+                <button type="submit">ok</button>
+                <button type="button" v-on:click="captchaDiscard(captcha.code)">
+                    x
+                </button>
+            </form>
+        </div>
+        <script type="text/javascript">
+            var app = new Vue({
+                el: "#captcha-list",
+                mounted: function () {
+                    this.captchaLoad();
+                    this.captchaSubscribe();
+                },
+                data: {
+                    captchaList: [],
+                },
+                methods: {
+                    captchaLoad: function () {
+                        const self = this;
+                        fetch("captchas", { method: "GET" })
+                            .then(function (response) {
+                                if (!response.ok) {
+                                    // The API call was not successful!
+                                    return Promise.reject(response);
+                                }
+                                return response.json();
+                            })
+                            .then(function (list) {
+                                list.forEach((captcha) =>
+                                    self.captchaAppend(captcha)
+                                );
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            });
+                    },
+                    captchaSubscribe: function () {
+                        const self = this;
+                        const source = new EventSource("events");
+                        source.addEventListener("message", function (event) {
+                            if (event.data !== "") {
+                                const data = JSON.parse(event.data);
+                                const eventName = data.eventName;
+                                if (eventName === "append")
+                                    self.captchaAppend(data);
+                                if (eventName === "remove")
+                                    self.captchaRemove(data.code);
+                            }
+                        });
+                        source.addEventListener("error", function (event) {
+                            if (event.data !== "") {
+                                source.close();
+                            }
+                        });
+                    },
+                    captchaAppend: function (data) {
+                        if (
+                            this.captchaList.find(
+                                (captcha) => captcha.code === data.code
+                            )
+                        ) {
+                            return;
+                        }
+                        this.captchaList.push({
+                            ...data,
+                            answer: undefined,
+                        });
+                    },
+                    captchaRemove: function (code) {
+                        const target = this.captchaList.findIndex(
+                            (captcha) => captcha.code === code
+                        );
+                        if (target === -1) {
+                            return;
+                        }
+                        this.captchaList.splice(target, 1);
+                    },
+                    captchaSendAnswer: function (data) {
+                        const fdata = new FormData();
+                        fdata.append("code", data.code);
+                        fdata.append("answer", data.answer);
+                        fetch("set-code-answer", {
+                            method: "POST",
+                            body: fdata,
+                        });
+                    },
+                    captchaDiscard: function (code) {
+                        const fdata = new FormData();
+                        fdata.append("code", code);
+                        fetch("discard-code", {
+                            method: "POST",
+                            body: fdata,
+                        });
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
