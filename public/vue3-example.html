@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Captcha Local Resolver</title>
+        <style>
+            #captcha-list {
+            }
+            #captcha-list form {
+                width: 30em;
+                margin-bottom: 4em;
+            }
+            #captcha-list form > img {
+                width: 100%;
+                margin-bottom: 0.5em;
+                border: 1px solid grey;
+            }
+            #captcha-list form > input {
+                width: 75%;
+            }
+            #captcha-list form > button {
+                width: 10%;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/vue@3.2.6/dist/vue.global.prod.js"></script>
+    </head>
+    <body>
+        <h1>Local Captcha Resolver</h1>
+        <div id="captcha-list">
+            <form
+                v-for="captcha in captchaList"
+                v-bind:key="captcha.code"
+                v-on:submit.prevent="captchaSendAnswer(captcha)"
+            >
+                <img v-bind:src="`data:image/png;base64,${captcha.image}`" />
+                <input type="text" name="answer" v-model="captcha.answer" />
+                <button type="submit">ok</button>
+                <button type="button" v-on:click="captchaDiscard(captcha.code)">
+                    x
+                </button>
+            </form>
+        </div>
+        <script type="text/javascript">
+            const { ref, createApp, onMounted } = Vue;
+            createApp({
+                setup() {
+                    const captchaList = ref([]);
+
+                    const captchaAppend = (data) => {
+                        if (
+                            captchaList.value.find(
+                                (captcha) => captcha.code === data.code
+                            )
+                        ) {
+                            return;
+                        }
+                        captchaList.value.push({
+                            ...data,
+                            answer: undefined,
+                        });
+                    };
+
+                    const captchaRemove = (code) => {
+                        const target = captchaList.value.findIndex(
+                            (captcha) => captcha.code === code
+                        );
+                        if (target === -1) {
+                            return;
+                        }
+                        captchaList.value.splice(target, 1);
+                    };
+
+                    const captchaLoad = () => {
+                        fetch("captchas", { method: "GET" })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    // The API call was not successful!
+                                    return Promise.reject(response);
+                                }
+                                return response.json();
+                            })
+                            .then(function (list) {
+                                list.forEach((captcha) =>
+                                    captchaAppend(captcha)
+                                );
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            });
+                    };
+
+                    const captchaSubscribe = () => {
+                        const source = new EventSource("events");
+                        source.addEventListener("message", function (event) {
+                            if (event.data !== "") {
+                                const data = JSON.parse(event.data);
+                                const eventName = data.eventName;
+                                if (eventName === "append") captchaAppend(data);
+                                if (eventName === "remove")
+                                    captchaRemove(data.code);
+                            }
+                        });
+                        source.addEventListener("error", function (event) {
+                            if (event.data !== "") {
+                                source.close();
+                            }
+                        });
+                    };
+
+                    const captchaSendAnswer = (data) => {
+                        const fdata = new FormData();
+                        fdata.append("code", data.code);
+                        fdata.append("answer", data.answer);
+                        fetch("set-code-answer", {
+                            method: "POST",
+                            body: fdata,
+                        });
+                    };
+
+                    const captchaDiscard = (code) => {
+                        const fdata = new FormData();
+                        fdata.append("code", code);
+                        fetch("discard-code", {
+                            method: "POST",
+                            body: fdata,
+                        });
+                    };
+
+                    onMounted(() => {
+                        captchaLoad();
+                        captchaSubscribe();
+                    });
+
+                    return {
+                        captchaList,
+                        captchaSendAnswer,
+                        captchaDiscard,
+                    };
+                },
+            }).mount("#captcha-list");
+        </script>
+    </body>
+</html>
