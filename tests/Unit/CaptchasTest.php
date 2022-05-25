@@ -125,7 +125,8 @@ class CaptchasTest extends TestCase
             'JsonSerialize produces an array of objects'
         );
 
-        $restored = json_decode(json_encode($items) ?: '');
+        /** @var iterable<stdClass> $restored */
+        $restored = json_decode(json_encode($items) ?: '', false);
         foreach ($restored as $item) {
             $this->assertInstanceOf(stdClass::class, $item);
         }

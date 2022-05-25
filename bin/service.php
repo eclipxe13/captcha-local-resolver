@@ -6,16 +6,39 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-exit(call_user_func(function (string $command, string $serverPortArgument = ''): int {
+exit(call_user_func(function (string $command, string ...$arguments): int {
     try {
-        $parts = explode(':', $serverPortArgument, 2);
-        $address = strval($parts[0] ?? '') ?: '127.0.0.1';
-        $port = intval($parts[1] ?? 0) ?: 80;
+        if ([] !== array_intersect(['-h', '--help'], $arguments)) {
+            $name = basename($command);
+            echo implode(PHP_EOL, [
+                "$name - Eclipxe's Local Captcha Resolver",
+                'Syntax:',
+                "    $name [[ip-address]:[port-number]]",
+                'Arguments:',
+                '    ip-address: default to 127.0.0.1, use 0.0.0.0 to open on all ip addresses.',
+                '    port-number: default to 80.',
+                'Usage:',
+                "    $ php $command 192.168.100.10:8001",
+                '    Server running at http://192.168.100.10:8001',
+                'Information:',
+                '    License: MIT',
+                '    Author: Carlos C Soto (eclipxe13) and contributors',
+                '    Homepage: https://github.com/eclipxe13/captcha-local-resolver',
+                '',
+                '',
+            ]);
+            return 0;
+        }
+
+        $serverPortArgument = $arguments[0] ?? '';
+        [$address, $port] = explode(':', $serverPortArgument, 2);
+        $address = strval($address) ?: '127.0.0.1';
+        $port = intval($port) ?: 80;
 
         $app = new CaptchaLocalResolver\Application();
-        $server = new React\Http\Server($app);
+        $server = new React\Http\HttpServer($app);
 
-        $socket = new React\Socket\Server("$address:$port");
+        $socket = new React\Socket\SocketServer("$address:$port");
         $server->listen($socket);
         echo "Server running at http://$address:$port\n";
 

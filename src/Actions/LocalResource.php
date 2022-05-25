@@ -63,7 +63,7 @@ class LocalResource implements ActionInterface
         $parts = explode('/', parse_url($path, PHP_URL_PATH) ?: '');
         $parts = array_values(array_filter($parts, fn (string $name): bool => '.' !== $name && '' !== $name));
 
-        // is .. and previous is not .., for paths like "../../some/path"
+        // is ".." and previous is not "..", for paths like "../../some/path"
         $count = count($parts);
         for ($i = 1; $i < $count; $i = $i + 1) {
             if ('..' === $parts[$i] && '..' !== $parts[$i - 1]) {
@@ -80,7 +80,6 @@ class LocalResource implements ActionInterface
         if ('inode/x-empty' === substr($mime, 0, 13)) {
             $mime = '';
         }
-        $mime = str_replace('; charset=us-ascii', '; charset=utf-8', $mime);
-        return $mime;
+        return str_replace('; charset=us-ascii', '; charset=utf-8', $mime);
     }
 }

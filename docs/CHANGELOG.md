@@ -15,6 +15,22 @@ In summary, [SemVer](https://semver.org/) can be viewed as `[ Breaking ].[ Featu
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.1.1 2022-05-25
+
+Maintenance review:
+
+- Update license year.
+- Fix PHPStan found issues.
+- Fix using deprecated React objects.
+- Update `.gitattibutes` excluded files.
+- Split CI *worflow steps* to *worflow jobs*.
+- Add PHP 8.1 to CI.
+- Migrate development tools from `develop/install-development-tools` to `phive`.
+- Update code style to PSR-12.
+- Scrutinizer create its own code coverage.
+- Move `development/docs/Testing.md` to `docs/Testing.md`
+- Remove `console.log` calls from `index.html` implementation.
+
 ## Version 0.1.0 2021-07-25
 
 Usage changes:

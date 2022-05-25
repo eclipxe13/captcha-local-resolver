@@ -47,7 +47,7 @@
         const source = new EventSource('events');
         source.addEventListener('message', function(event) {
             if (event.data !== '') {
-                console.log(event.data);
+                // console.log(event.data);
                 const data = JSON.parse(event.data);
                 const eventName = data['eventName'];
                 if (eventName === 'append') captcha_append(data);
@@ -55,7 +55,7 @@
             }
         });
         source.addEventListener('error', function(event) {
-            if (event['data'] !== '') {
+            if (event.data !== '') {
                 source.close();
             }
         });

@@ -24,6 +24,7 @@ class SimulateFlowTest extends TestCase
         );
         // send image assertions
         $this->assertSame(200, $sendImageResponse->getStatusCode());
+        /** @var string[] $sendImageData */
         $sendImageData = json_decode($sendImageResponse->getBody()->getContents(), true);
         $code = $sendImageData['code'] ?: '';
         $this->assertNotEmpty($code, 'The captcha code was received on the response');
@@ -37,8 +38,9 @@ class SimulateFlowTest extends TestCase
             $this->createRequest('POST', 'http://localhost/obtain-decoded', ['code' => $code])
         );
         $this->assertSame(200, $obtainDecodedNotAnswer->getStatusCode());
+        /** @var string[] $obtainDecodedNotAnswerData */
         $obtainDecodedNotAnswerData = json_decode($obtainDecodedNotAnswer->getBody()->getContents(), true);
-        $this->assertSame($code, $obtainDecodedNotAnswerData['code']);
+        $this->assertSame($code, $obtainDecodedNotAnswerData['code'] ?? '');
         $this->assertEmpty($obtainDecodedNotAnswerData['answer'] ?? '');
         $this->assertSame(1, $subscriptor->countAll(), 'obtain-decoded must not create an event');
 
@@ -57,6 +59,7 @@ class SimulateFlowTest extends TestCase
             $this->createRequest('GET', 'http://localhost/captchas')
         );
         $this->assertSame(200, $captchasRequest->getStatusCode());
+        /** @var array<string[]> $captchasData */
         $captchasData = json_decode($captchasRequest->getBody()->getContents(), true);
         $this->assertTrue(is_array($captchasData));
         $this->assertCount(1, $captchasData);
@@ -69,6 +72,7 @@ class SimulateFlowTest extends TestCase
             $this->createRequest('POST', 'http://localhost/obtain-decoded', ['code' => $code])
         );
         $this->assertSame(200, $obtainDecodedWithAnswer->getStatusCode());
+        /** @var string[] $obtainDecodedWithAnswerData */
         $obtainDecodedWithAnswerData = json_decode($obtainDecodedWithAnswer->getBody()->getContents(), true);
         $this->assertSame($code, $obtainDecodedWithAnswerData['code']);
         $this->assertSame($answer, $obtainDecodedWithAnswerData['answer']);
@@ -90,6 +94,7 @@ class SimulateFlowTest extends TestCase
         );
         // send image assertions
         $this->assertSame(200, $sendImageResponse->getStatusCode());
+        /** @var string[] $sendImageData */
         $sendImageData = json_decode($sendImageResponse->getBody()->getContents(), true);
         $code = $sendImageData['code'] ?: '';
         $this->assertNotEmpty($code, 'The captcha code was received on the response');
@@ -112,6 +117,7 @@ class SimulateFlowTest extends TestCase
             $this->createRequest('GET', 'http://localhost/captchas')
         );
         $this->assertSame(200, $captchasRequest->getStatusCode());
+        /** @var array{} $captchasData */
         $captchasData = json_decode($captchasRequest->getBody()->getContents(), true);
         $this->assertTrue(is_array($captchasData));
         $this->assertCount(0, $captchasData);
