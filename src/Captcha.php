@@ -60,6 +60,10 @@ class Captcha implements JsonSerializable
     /** @return array<string, string> */
     public function toArray(): array
     {
-        return array_filter(get_object_vars($this));
+        return [
+            'code' => $this->code,
+            'image' => $this->image,
+            'answer' => $this->answer,
+        ];
     }
 }

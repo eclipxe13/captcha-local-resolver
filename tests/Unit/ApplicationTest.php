@@ -129,7 +129,7 @@ class ApplicationTest extends TestCase
 
     public function testApplicationCanParse(): void
     {
-        $app = new class() extends Application {
+        $app = new class () extends Application {
             /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {
@@ -144,7 +144,7 @@ class ApplicationTest extends TestCase
 
     public function testApplicationCanParseJson(): void
     {
-        $app = new class() extends Application {
+        $app = new class () extends Application {
             /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {
@@ -160,7 +160,7 @@ class ApplicationTest extends TestCase
 
     public function testApplicationCanParseInvalidJson(): void
     {
-        $app = new class() extends Application {
+        $app = new class () extends Application {
             /** @return string[] */
             public function exposeExtractArgumentsFromRequest(ServerRequestInterface $request): array
             {

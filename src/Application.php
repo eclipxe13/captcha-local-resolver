@@ -112,18 +112,28 @@ class Application
     {
         if ('application/json' === implode('', $request->getHeader('Content-Type'))) {
             try {
-                $arguments = json_decode((string)$request->getBody(), true, 512, JSON_THROW_ON_ERROR);
+                $arguments = json_decode((string) $request->getBody(), true, 512, JSON_THROW_ON_ERROR);
             } catch (JsonException $exception) {
                 $arguments = null;
             }
         } else {
             $arguments = $request->getParsedBody();
         }
-        if (null === $arguments) {
+        if (is_object($arguments)) {
+            /** @var array<mixed> $arguments */
+            $arguments = json_decode(json_encode($arguments) ?: '', true);
+        }
+        if (! is_array($arguments)) {
             $arguments = [];
         }
-        if (is_object($arguments)) {
-            $arguments = json_decode(json_encode($arguments) ?: '', true);
+        foreach ($arguments as $key => $value) {
+            if (! is_scalar($value)) {
+                unset($arguments[$key]);
+                continue;
+            }
+            if (! is_string($value)) {
+                $arguments[$key] = (string) $value;
+            }
         }
         return $arguments;
     }

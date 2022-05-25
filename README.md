@@ -6,7 +6,6 @@
 [![Build Status][badge-build]][build]
 [![Scrutinizer][badge-quality]][quality]
 [![Coverage Status][badge-coverage]][coverage]
-[![Total Downloads][badge-downloads]][downloads]
 
 This is a project to create a human captcha resolver that emulates how online resolvers work.
 
@@ -20,13 +19,22 @@ Using git:
 ```shell
 git clone https://github.com/eclipxe13/captcha-local-resolver
 cd captcha-local-resolver
-composer install --no-dev --optimize
+composer install --no-dev
+```
+
+Using zip:
+
+```shell
+curl -L https://github.com/eclipxe13/captcha-local-resolver/archive/refs/heads/main.zip
+unzip main.zip
+cd captcha-local-resolver-main
+composer install --no-dev
 ```
 
 ## Run the server
 
 ```shell
-# php bin/service.php [[<ip-address>]:[<port-number>]]
+# php bin/service.php [[ip-address]:[port-number]]
 php bin/service.php :9595
 Server running at http://127.0.0.1:9595
 ```
@@ -121,7 +129,7 @@ Please, fill a new issue if you find any security issues.
 
 ## Compatibility
 
-This library is compatible with *latest* supported PHP version. See <https://www.php.net/supported-versions.php>.
+This library is compatible with the *latest* supported PHP version. See <https://www.php.net/supported-versions.php>.
 If you are going to contribute, try to use the full potential of the language.
 
 ## License
@@ -133,13 +141,12 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [changelog]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/docs/CHANGELOG.md
 [todo]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/docs/TODO.md
 
-[source]: https://github.com/phpcfdi/scfdi-sat-scraper
+[source]: https://github.com/eclipxe13/captcha-local-resolver
 [release]: https://github.com/eclipxe13/captcha-local-resolver/releases
 [license]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/LICENSE
 [build]: https://travis-ci.com/eclipxe13/captcha-local-resolver?branch=main
 [quality]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/
 [coverage]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/code-structure/main/code-coverage/src/
-[downloads]: https://packagist.org/packages/eclipxe/captcha-local-resolver
 
 [badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/eclipxe13/captcha-local-resolver?style=flat-square
@@ -147,4 +154,3 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/captcha-local-resolver/build/main?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/captcha-local-resolver/main?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/captcha-local-resolver/main?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/eclipxe/captcha-local-resolver?style=flat-square
