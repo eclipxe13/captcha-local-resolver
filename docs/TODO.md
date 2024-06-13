@@ -25,7 +25,7 @@ It would be very useful to use compile the project into a `PHAR` file.
 
 ### Provide Docker
 
-It would be very useful to set up a local image and run the service inside a container.
+Set up a Docker image in Docker Hub.
 
 ## Solved
 

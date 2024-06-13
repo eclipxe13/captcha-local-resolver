@@ -40,6 +40,27 @@ Server running at http://127.0.0.1:9595
 
 Parameters are `ip-address` (default `127.0.0.1`) and `port` (default `80`) to listen.
 
+## Run using Docker
+
+We distribute a `Dockerfile` file to create a local image and run the service without the need to install PHP
+or any of the dependencies. See [Docker README](Docker.README.md) for more information.
+
+```shell
+# get the project source
+git clone https://github.com/eclipxe13/captcha-local-resolver
+
+# build the image "captcha-local-resolver" from folder "captcha-local-resolver/"
+docker build --tag captcha-local-resolver captcha-local-resolver/
+
+# run service on ip 127.0.0.1 port 9595 in the background in a container named captcha-local-resolver
+docker run --user="$(id -u):$(id -g)" --detach --network host --name captcha-local-resolver \
+  captcha-local-resolver 127.0.0.1:9595
+
+# stop or start and container
+docker stop captcha-local-resolver
+docker start captcha-local-resolver
+```
+
 ## How it works (eagle view)
 
 You have to scrap, and the target website does not have an API, even worst, they are using a captcha, and you need
