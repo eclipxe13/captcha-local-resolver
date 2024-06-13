@@ -26,7 +26,6 @@ jobs:
           tools: composer:v2, cs2pr, phpcs
         env:
           fail-fast: true
-
       - name: Coding standards (phpcs)
         run: phpcs -q --report=checkstyle | cs2pr
 
@@ -44,7 +43,6 @@ jobs:
           tools: composer:v2, cs2pr, php-cs-fixer
         env:
           fail-fast: true
-
       - name: Coding standards (php-cs-fixer)
         run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
@@ -65,21 +63,17 @@ jobs:
           tools: composer:v2
         env:
           fail-fast: true
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
-
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
-
       - name: Tests (phpunit)
         run: vendor/bin/phpunit --testdox --verbose
 
@@ -97,21 +91,16 @@ jobs:
           tools: composer:v2, phpstan
         env:
           fail-fast: true
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
-
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
-
       - name: Static analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
-
