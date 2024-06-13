@@ -1,7 +1,6 @@
 # eclipxe/captcha-local-resolver
 
 [![Source Code][badge-source]][source]
-[![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
 [![Scrutinizer][badge-quality]][quality]
@@ -142,14 +141,12 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [todo]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/captcha-local-resolver
-[release]: https://github.com/eclipxe13/captcha-local-resolver/releases
 [license]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/LICENSE
 [build]: https://travis-ci.com/eclipxe13/captcha-local-resolver?branch=main
 [quality]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/
 [coverage]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/code-structure/main/code-coverage/src/
 
 [badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
-[badge-release]: https://img.shields.io/github/release/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/captcha-local-resolver/build/main?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/captcha-local-resolver/main?style=flat-square
