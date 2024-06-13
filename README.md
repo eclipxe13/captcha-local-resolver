@@ -148,6 +148,6 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 
 [badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/captcha-local-resolver?style=flat-square
-[badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/captcha-local-resolver/build/main?style=flat-square
+[badge-build]: https://img.shields.io/github/actions/workflow/status/eclipxe13/captcha-local-resolver/build.yml?branch=main&style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/captcha-local-resolver/main?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/captcha-local-resolver/main?style=flat-square
