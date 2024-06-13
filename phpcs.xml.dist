@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
-<ruleset name="EngineWorks">
-    <description>The EngineWorks (PSR-2 based) coding standard.</description>
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Personal">
+    <description>Personal coding standard.</description>
 
     <file>bin</file>
     <file>src</file>
