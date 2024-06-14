@@ -22,4 +22,5 @@
 /phpunit.xml.dist           export-ignore
 
 # Do not count these files on github code language
+public/**                   linguist-detectable=false
 /tests/_files/**            linguist-detectable=false

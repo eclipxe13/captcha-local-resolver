@@ -31,9 +31,9 @@ exit(call_user_func(function (string $command, string ...$arguments): int {
         }
 
         $serverPortArgument = $arguments[0] ?? '';
-        [$address, $port] = explode(':', $serverPortArgument, 2);
-        $address = strval($address) ?: '127.0.0.1';
-        $port = intval($port) ?: 80;
+        $serverPortParts = explode(':', $serverPortArgument, 2);
+        $address = ($serverPortParts[0] ?? '') ?: '127.0.0.1';
+        $port = intval($serverPortParts[1] ?? '') ?: 80;
 
         $app = new CaptchaLocalResolver\Application();
         $server = new React\Http\HttpServer($app);

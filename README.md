@@ -1,7 +1,6 @@
 # eclipxe/captcha-local-resolver
 
 [![Source Code][badge-source]][source]
-[![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
 [![Scrutinizer][badge-quality]][quality]
@@ -40,6 +39,27 @@ Server running at http://127.0.0.1:9595
 ```
 
 Parameters are `ip-address` (default `127.0.0.1`) and `port` (default `80`) to listen.
+
+## Run using Docker
+
+We distribute a `Dockerfile` file to create a local image and run the service without the need to install PHP
+or any of the dependencies. See [Docker README](Docker.README.md) for more information.
+
+```shell
+# get the project source
+git clone https://github.com/eclipxe13/captcha-local-resolver
+
+# build the image "captcha-local-resolver" from folder "captcha-local-resolver/"
+docker build --tag captcha-local-resolver captcha-local-resolver/
+
+# run service on ip 127.0.0.1 port 9595 in the background in a container named captcha-local-resolver
+docker run --user="$(id -u):$(id -g)" --detach --network host --name captcha-local-resolver \
+  captcha-local-resolver 127.0.0.1:9595
+
+# stop or start and container
+docker stop captcha-local-resolver
+docker start captcha-local-resolver
+```
 
 ## How it works (eagle view)
 
@@ -142,15 +162,13 @@ use under the MIT License (MIT). Please see [LICENSE] for more information.
 [todo]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/captcha-local-resolver
-[release]: https://github.com/eclipxe13/captcha-local-resolver/releases
 [license]: https://github.com/eclipxe13/captcha-local-resolver/blob/main/LICENSE
 [build]: https://travis-ci.com/eclipxe13/captcha-local-resolver?branch=main
 [quality]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/
 [coverage]: https://scrutinizer-ci.com/g/eclipxe13/captcha-local-resolver/code-structure/main/code-coverage/src/
 
 [badge-source]: https://img.shields.io/badge/source-eclipxe/captcha--local--resolver-blue?style=flat-square
-[badge-release]: https://img.shields.io/github/release/eclipxe13/captcha-local-resolver?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/captcha-local-resolver?style=flat-square
-[badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/captcha-local-resolver/build/main?style=flat-square
+[badge-build]: https://img.shields.io/github/actions/workflow/status/eclipxe13/captcha-local-resolver/build.yml?branch=main&style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/captcha-local-resolver/main?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/captcha-local-resolver/main?style=flat-square
