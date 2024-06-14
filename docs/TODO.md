@@ -2,6 +2,11 @@
 
 ## Pending
 
+### Update dependencies
+
+Update PHP minimal version to PHP 8.2.
+Update PHP minimal version to PHP 8.3 after 2024-12-08 when PHP 8.2 will be not active.
+
 ### Logging
 
 Add logging to application.
