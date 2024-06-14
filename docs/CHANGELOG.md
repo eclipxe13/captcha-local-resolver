@@ -15,6 +15,29 @@ In summary, [SemVer](https://semver.org/) can be viewed as `[ Breaking ].[ Featu
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.1.2 2024-06-13
+
+Fixes and improvements:
+
+- Fix continuous integration build by adding `ringcentral/psr7` ad development dependency.
+- Fix `server:port` argument on command line script.
+- Provide Docker instructions.
+
+Maintenance:
+
+- Update license year to 2024.
+- Remove release badge.
+- Update build badge.
+- Update code style standards configuration to recent versions.
+- Disallow language detection on `public/` directory.
+- Update GitHub workflow:
+  - Allow running jobs manually.
+  - Add PHP 8.2 and PHP 8.3 to test matrix.
+  - Run jobs using PHP 8.3.
+  - Change `::set-output` directive to `$GITHUB_OUTPUT`.
+  - Update GitHub actions to version 4.
+- Update developent tools.
+
 ## Version 0.1.1 2022-05-25
 
 Maintenance review:
